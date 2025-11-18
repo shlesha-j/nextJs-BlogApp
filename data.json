@@ -1,0 +1,47 @@
+{
+  "blogs": [
+    {
+      "id": "1",
+      "title": "Getting Started with React",
+      "description": "React is a powerful JavaScript library for building user interfaces. Learn how to create components and manage state effectively.",
+      "image": "https://images.unsplash.com/photo-1581276879432-15a19d654956?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "2",
+      "title": "Mastering Next.js",
+      "description": "Next.js enables server-side rendering and static site generation, making your React apps faster and more SEO-friendly.",
+      "image": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "3",
+      "title": "Understanding React Hook Form",
+      "description": "React Hook Form simplifies form validation and management in React apps. Learn how to use it for clean and efficient forms.",
+      "image": "https://images.unsplash.com/photo-1556767576-5ec41e3239e8?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "f8cd",
+      "title": "Next Js",
+      "description": "Next.js is a React framework for building fast, scalable, and SEO-friendly web applications by adding features like server-side rendering (SSR) and static site generation (SSG) to React"
+    },
+    {
+      "id": "09f7",
+      "title": "sdfd",
+      "description": "dfdfdf"
+    },
+    {
+      "id": "6aad",
+      "title": "dfdsfsdsdgfgfdg",
+      "description": "ffdgfdgfdgggggd"
+    },
+    {
+      "id": "5aeb",
+      "title": "React training",
+      "description": "uuinkmfndfdmsfdsfpdfsdfdfdfss"
+    },
+    {
+      "id": "b0ce",
+      "title": "sdfddfgfd",
+      "description": "gfdgfdgfdg"
+    }
+  ]
+}
