@@ -23,7 +23,7 @@ function BlogCreatePage() {
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>Blog Creation Page</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -49,6 +49,10 @@ function BlogCreatePage() {
             <p style={{ color: "red" }}>{errors.description.message}</p>
           )}
           
+        </div>
+        <div className="form-grp">
+          <label>Upload Image</label>
+          <input type="file" name="photo" accept="image/*"/> 
         </div>
 
         <button type="submit" disabled={isSubmitting}>
