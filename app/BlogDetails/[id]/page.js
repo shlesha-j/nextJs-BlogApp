@@ -14,14 +14,14 @@ export default function BlogDetailPage({ params }) {
       const selectedBlog = blogs.find(
         (item) => String(item.id) === String(id)
       );
-      setBlog(selectedBlog);
+      setBlog(selectedBlog);  
     })();
   }, [id]);
 
   if (!blog) return <p>Loading...</p>;
 
   return (
-    <div>
+    <div className="container">
       <h1>{blog.title}</h1>
       <img src={blog.photo_url} width={600} height={400} />
       <p>{blog.description}</p>

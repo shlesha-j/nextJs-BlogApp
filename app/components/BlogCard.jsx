@@ -3,6 +3,7 @@ import Link from "next/link";
 function BlogCard({ blog }) {
     return (
         <Link href={`/BlogDetails/${blog.id}`} className="blog-card">
+            {/* <div id="overlay"></div> */}
             <div className="blog-img-wrap">
                 <img src={blog.photo_url} alt={blog.title} width="400" height="400" />
             </div>
@@ -12,6 +13,11 @@ function BlogCard({ blog }) {
                 {/* <p>{blog.category}</p> */}
             </div>
             <p className="readMoreBtn" href={"/BlogDetails"}>Read More</p>
+            <div className="actionBtn-grp">
+                <button className='editBtn'>📝</button>
+                <button className='deleteBtn'>🗑️</button>
+            </div>
+            
             {/* <button  >Read More</button> */}
             {/* <Image src={blog.image} alt="Description of my image" width={500}  height={300} /> */}
         </Link>
