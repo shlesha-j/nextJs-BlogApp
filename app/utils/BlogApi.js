@@ -36,5 +36,9 @@ export const deleteBlog = async (id) => {
 };
 
 // export const updateBlog = async(id) => {
-  
+//   try{
+
+//   }catch(err){
+
+//   }
 // }

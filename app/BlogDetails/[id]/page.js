@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
-import { fetchBlogs, deleteBlog } from "@/app/utils/BlogApi";
+import { fetchBlogs, deleteBlog, updateBlog } from "@/app/utils/BlogApi";
 import { useRouter } from "next/navigation";
 
 export default function BlogDetailPage({ params }) {
@@ -21,17 +21,17 @@ export default function BlogDetailPage({ params }) {
 
   if (!blog) return <p>Loading...</p>;
 
-  async function deleteBlogFn() {
-    const sure = confirm("Are you sure you want to delete this blog?");
-    if (!sure) return;
-    try {
-      await deleteBlog(id);
-      alert("Blog deleted successfully!");
-      router.push("/");   
-    } catch (error) {
-      alert("Failed to delete blog");
-    }
-  }
+  // async function deleteBlogFn() {
+  //   const sure = confirm("Are you sure you want to delete this blog?");
+  //   if (!sure) return;
+  //   try {
+  //     await deleteBlog(id);
+  //     alert("Blog deleted successfully!");
+  //     router.push("/");   
+  //   } catch (error) {
+  //     alert("Failed to delete blog");
+  //   }
+  // }
 
 
 
@@ -40,11 +40,11 @@ export default function BlogDetailPage({ params }) {
       <h1>{blog.title}</h1>
       <img src={blog.photo_url} width={600} height={400} />
       <p>{blog.description}</p>
-      <p>{blog.content_text}</p>
-      <div className="actionBtn-grp">
+      <p>{blog.content}</p>
+      {/* <div className="actionBtn-grp">
         <button className='editBtn'>📝</button>
         <button className='deleteBtn' onClick={deleteBlogFn}>🗑️</button>
-      </div>
+      </div> */}
     </div>
   );
 }
