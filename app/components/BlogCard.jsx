@@ -15,6 +15,7 @@ function BlogCard({ blog }) {
             alert("Failed to delete blog");
         }   
     }
+
     return (
         <div className="blog-card">
             {/* <div id="overlay"></div> */}
@@ -29,7 +30,7 @@ function BlogCard({ blog }) {
             <Link href={`/BlogDetails/${blog.id}`}>Read More</Link>
             {/* <p className="readMoreBtn" href={"/BlogDetails"}>Read More</p> */}
             <div className="actionBtn-grp">
-                <button className='editBtn'>📝</button>
+                <button className='editBtn' onClick={editBlog}>📝</button>
                 
                 <button className='deleteBtn' onClick={deleteBlogFn}>🗑️</button>
             </div>

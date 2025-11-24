@@ -35,10 +35,11 @@ export const deleteBlog = async (id) => {
   }
 };
 
-// export const updateBlog = async(id) => {
-//   try{
-
-//   }catch(err){
-
-//   }
-// }
+export const updateBlog = async(id) => {
+  try{
+    const response = await axios.put(`${API_URL}/${id}`);
+    return response.data;
+  }catch(err){
+    console.error("Erro ")
+  }
+}
