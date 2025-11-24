@@ -141,9 +141,9 @@ button {
 }
 
 .actionBtn-grp {
-  position: absolute;
+  position: fixed;
   right: 20px;
-  bottom: 25px;
+  top: 50%;
   width: 150px;
   display: flex;
   justify-content: space-between;

@@ -23,3 +23,18 @@ export const addBlog = async (data) => {
     throw error;
   }
 };
+
+
+export const deleteBlog = async (id) => {
+  try {
+    const response = await axios.delete(`${API_URL}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting blog:", error);
+    throw error;
+  }
+};
+
+// export const updateBlog = async(id) => {
+  
+// }

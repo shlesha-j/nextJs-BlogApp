@@ -13,10 +13,7 @@ function BlogCard({ blog }) {
                 {/* <p>{blog.category}</p> */}
             </div>
             <p className="readMoreBtn" href={"/BlogDetails"}>Read More</p>
-            <div className="actionBtn-grp">
-                <button className='editBtn'>📝</button>
-                <button className='deleteBtn'>🗑️</button>
-            </div>
+            
             
             {/* <button  >Read More</button> */}
             {/* <Image src={blog.image} alt="Description of my image" width={500}  height={300} /> */}

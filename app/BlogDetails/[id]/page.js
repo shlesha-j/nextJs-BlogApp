@@ -1,12 +1,13 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
-import { fetchBlogs } from "@/app/utils/BlogApi";
+import { fetchBlogs, deleteBlog } from "@/app/utils/BlogApi";
+import { useRouter } from "next/navigation";
 
 export default function BlogDetailPage({ params }) {
-  const { id } = use(params); // Unwrap params Promise (Next.js 15)
-
+  const { id } = use(params);
   const [blog, setBlog] = useState(null);
+   const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -14,11 +15,25 @@ export default function BlogDetailPage({ params }) {
       const selectedBlog = blogs.find(
         (item) => String(item.id) === String(id)
       );
-      setBlog(selectedBlog);  
+      setBlog(selectedBlog);
     })();
   }, [id]);
 
   if (!blog) return <p>Loading...</p>;
+
+  async function deleteBlogFn() {
+    const sure = confirm("Are you sure you want to delete this blog?");
+    if (!sure) return;
+    try {
+      await deleteBlog(id);
+      alert("Blog deleted successfully!");
+      router.push("/");   
+    } catch (error) {
+      alert("Failed to delete blog");
+    }
+  }
+
+
 
   return (
     <div className="container">
@@ -26,6 +41,10 @@ export default function BlogDetailPage({ params }) {
       <img src={blog.photo_url} width={600} height={400} />
       <p>{blog.description}</p>
       <p>{blog.content_text}</p>
+      <div className="actionBtn-grp">
+        <button className='editBtn'>📝</button>
+        <button className='deleteBtn' onClick={deleteBlogFn}>🗑️</button>
+      </div>
     </div>
   );
 }
