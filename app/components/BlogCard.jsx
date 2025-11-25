@@ -23,38 +23,17 @@ function BlogCard({ blog }) {
                 <img src={blog.photo_url} alt={blog.title} width="400" height="400" />
             </div>
             <div className="blog-content-wrap">
-                <p className="blog-title"><b>{blog.title}</b></p>
+                <p className="blog-title">{blog.title}</p>
                 <p className="blog-desc">{blog.description}</p>
                 {/* <p>{blog.category}</p> */}
             </div>
-            <Link href={`/BlogDetails/${blog.id}`}>Read More</Link>
+            <Link href={`/BlogDetails/${blog.id}`} className='readMoreLink'>Read More ╰┈➤</Link>
             {/* <p className="readMoreBtn" href={"/BlogDetails"}>Read More</p> */}
             <div className="actionBtn-grp">
-                <button className='editBtn' onClick={editBlog}>📝</button>
-                
+                <button className='editBtn' >📝</button>
                 <button className='deleteBtn' onClick={deleteBlogFn}>🗑️</button>
             </div>
         </div>
-        // <Link href={`/`} className="blog-card">
-        //     {/* <div id="overlay"></div> */}
-        //     <div className="blog-img-wrap">
-        //         <img src={`http://localhost:3000${blog.photo_url}`} alt={blog.title} width="400" height="400" />
-        //     </div>
-        //     <div className="blog-content-wrap">
-        //         <p className="blog-title"><b>{blog.title}</b></p>
-        //         <p className="blog-desc">{blog.description}</p>
-        //         {/* <p>{blog.category}</p> */}
-        //     </div>
-        //     <Link href={`/BlogDetails/${blog.id}`}>Read More</Link>
-        //     <p className="readMoreBtn" href={"/BlogDetails"}>Read More</p>
-        //     <div className="actionBtn-grp">
-        //         <button className='editBtn'>📝</button>
-        //         <button className='deleteBtn' onClick={deleteBlogFn}>🗑️</button>
-        //     </div>
-
-        //     {/* <button  >Read More</button> */}
-        //     {/* <Image src={blog.image} alt="Description of my image" width={500}  height={300} /> */}
-        // </Link>
     )
 }
 

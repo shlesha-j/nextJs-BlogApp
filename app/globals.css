@@ -1,4 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
+
 
 :root {
   --background: #ffffff;
@@ -15,7 +17,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #E5E5E5;
   }
 }
 
@@ -28,9 +30,9 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--foreground);
+  color: var(--background);
+  font-family: "Lato", sans-serif;
 }
 
 nav {
@@ -39,12 +41,45 @@ nav {
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 999;
+}
+
+.nav-shadow {
+  background-color: rgb(230, 222, 222);
+  box-shadow: 0 4px 24px 0 rgba(23, 194, 236, 0.18), 0 1.5px 6px 0 rgba(23, 194, 236, 0.10), 0 2px 10px rgba(0, 0, 0, 0.10);
+  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
+  backdrop-filter: blur(12px);
+  /* glass blur */
+}
+
+section {
+  padding: 28px 0;
+}
+
+.txt-center {
+  text-align: center;
+}
+
+.text-cap {
+  text-transform: uppercase;
 }
 
 nav .main-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 16px 0;
+  /* border-bottom: 1px solid #000000; */
+  position: relative;
+}
+
+nav .main-nav::after {
+  content: '';
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  background-color: #000000;
+  bottom: -16px;
 }
 
 .nav-links ul {
@@ -58,6 +93,20 @@ nav .main-nav {
 
 .nav-link {
   padding: 10px;
+  font-size: 20px;
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: 300;
+}
+
+h1 {
+  font-family: Lato, sans-serif;
+  font-size: 239px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 184px;
+  text-transform: uppercase;
+  margin: 48px 0;
 }
 
 .form-grp {
@@ -88,33 +137,44 @@ button {
 .blogs-wrap {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 -15px;
+  /* margin: 0 -15px; */
 }
 
 .blog-card {
-  width: 31.1%;
-  margin: 15px;
+  width: 33.33%;
+  /* margin: 15px; */
   position: relative;
+  padding: 48px;
+  border: 0.0313rem solid black;
+}
+.blog-card .readMoreLink{
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  color: rgb(0, 110, 255);
 }
 
-.blog-img-wrap {
+/* .blog-img-wrap {
   position: relative;
-}
+} */
 
 .blog-img-wrap img {
   height: 400px;
-  max-width: 420px;
+  max-width: 400px;
   width: 100%;
   object-fit: cover;
+  margin-bottom: 32px;
 }
 
-.blog-content-wrap {
+/* .blog-content-wrap {
   color: #fff;
   z-index: 2;
   position: absolute;
   top: 25px;
   left: 1.25rem;
-}
+} */
 
 .container {
   max-width: 1350px;
@@ -122,14 +182,25 @@ button {
   margin: 0 auto;
   padding: 0 16px;
 }
+.blog-title{
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 20px;
+  margin-bottom: 12px;
+}
 
 .blog-desc {
-  /* display: -webkit-box; */
-  /* -webkit-line-clamp: 1; */
-  /* -webkit-box-orient: vertical; */
-  /* overflow: hidden; */
-  /* text-overflow: ellipsis; */
-  color: white;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  color: #000000;
   font-size: 14px;
   margin-bottom: 25px;
 }
@@ -167,3 +238,155 @@ button {
   z-index: 2;
   cursor: pointer;
 } */
+
+.marquee-wrap {
+  background: #000000;
+  padding: 20px 0;
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 75px;
+}
+
+.marquee-title {
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  color: white;
+  font-size: 18px;
+  padding-left: 20px;
+  width: 15%;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+.marquee {
+  width: 85%;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-content {
+  display: flex;
+  align-items: center;
+  animation: marquee 18s linear infinite;
+}
+
+.marquee-content p {
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  color: white;
+  font-size: 18px;
+  white-space: nowrap;
+  /* Prevents wrapping */
+  padding: 0 20px;
+  /* Spacing between items */
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.swipper-wrap {
+  margin-bottom: 50px;
+}
+
+.swiper-content h2 {
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 58px;
+  color: #000000;
+  line-height: 50px;
+  margin-bottom: 20px;
+}
+
+.swiper-content p {
+  color: #303030;
+  margin-bottom: 20px;
+  font-family: Lato, sans-serif;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.blogdetail,
+.blogcreation {
+  margin-top: 120px;
+}
+.home-page.blogs-wrap{
+  flex-direction: column;
+  margin-bottom: 90px;
+}
+.homePage-BlogCard {
+  display: flex;
+  /* justify-content: space-between; */
+}
+.homePage-BlogCard:not(:last-child){
+  margin-bottom: 97px;
+  position: relative;
+}
+.homePage-BlogCard:not(:last-child)::after{
+  content: '';
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  background-color: #000000;
+  bottom: -21%;
+}
+.homePage-BlogCard .blog-content {
+  margin-left: 48px;
+}
+
+.homePage-BlogCard .blog-content h5 {
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 28px;
+  color: #000000;
+  line-height: 20px;
+  margin-bottom: 15px;
+}
+
+.homePage-BlogCard .blog-content p {
+  color: #000000;
+  margin-bottom: 10px;
+  font-family: Lato, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 100;
+  line-height: 20px;
+}
+.homePage-BlogCard img{
+  width: 240px;
+  height: 240px;
+  object-fit: cover;
+}
+
+.readmore-wrap{
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000;
+  border-radius: 50%;
+  float: inline-end;
+}
+.readmore-wrap a{
+  color: white;
+  font-size: 28px;
+}
+
+.load-more-btn{
+  background-color: transparent;
+  width: 100%;
+  border: 1px solid #000000;
+}

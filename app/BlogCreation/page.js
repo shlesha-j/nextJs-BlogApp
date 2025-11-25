@@ -57,7 +57,7 @@ function BlogCreatePage() {
 
 
   return (
-    <div className="container">
+    <div className="container blogcreation">
       <h2>Blog Creation Page</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
