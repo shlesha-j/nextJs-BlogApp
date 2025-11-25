@@ -35,11 +35,12 @@ export const deleteBlog = async (id) => {
   }
 };
 
-export const updateBlog = async(id) => {
-  try{
-    const response = await axios.put(`${API_URL}/${id}`);
+export const editBlog = async (id, data) => {
+  try {
+    const response = await axios.put(`${API_URL}/${id}`, data);
     return response.data;
-  }catch(err){
-    console.error("Erro ")
+  } catch (error) {
+    console.error("Error editing blog:", error);
+    throw error;
   }
-}
+};

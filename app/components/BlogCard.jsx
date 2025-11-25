@@ -30,7 +30,10 @@ function BlogCard({ blog }) {
             <Link href={`/BlogDetails/${blog.id}`} className='readMoreLink'>Read More ╰┈➤</Link>
             {/* <p className="readMoreBtn" href={"/BlogDetails"}>Read More</p> */}
             <div className="actionBtn-grp">
-                <button className='editBtn' >📝</button>
+                {/* <button className='editBtn'>
+  <                 Link href={`/EditBlog/${blog.id}`}>📝</Link>
+                </button> */}
+                <Link href={`/EditBlog/${blog.id}`} className="editBtn">📝</Link>
                 <button className='deleteBtn' onClick={deleteBlogFn}>🗑️</button>
             </div>
         </div>

@@ -318,7 +318,8 @@ button {
 }
 
 .blogdetail,
-.blogcreation {
+.blogcreation,
+.editblog-page {
   margin-top: 120px;
 }
 .home-page.blogs-wrap{
