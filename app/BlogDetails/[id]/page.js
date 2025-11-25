@@ -33,11 +33,9 @@ export default function BlogDetailPage({ params }) {
   //   }
   // }
 
-
-
   return (
-    <div className="container">
-      <h1>{blog.title}</h1>
+    <div className="container blogdetail">
+      <h2>{blog.title}</h2>
       <img src={blog.photo_url} width={600} height={400} />
       <p>{blog.description}</p>
       <p>{blog.content}</p>
