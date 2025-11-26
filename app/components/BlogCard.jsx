@@ -2,6 +2,9 @@ import React from 'react'
 import Link from "next/link";
 import { deleteBlog } from "@/app/utils/BlogApi";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function BlogCard({ blog }) {
     const router = useRouter();
     async function deleteBlogFn() {
@@ -9,10 +12,10 @@ function BlogCard({ blog }) {
         if (!sure) return;
         try {
             await deleteBlog(blog.id);
-            alert("Blog deleted successfully!");
-            router.refresh();
+            toast.success("Blog deleted successfully!")
+            router.push("/Blogs");
         } catch (error) {
-            alert("Failed to delete blog");
+            toast.warning("Failed to delete blog");
         }   
     }
 
@@ -21,6 +24,11 @@ function BlogCard({ blog }) {
             {/* <div id="overlay"></div> */}
             <div className="blog-img-wrap">
                 <img src={blog.photo_url} alt={blog.title} width="400" height="400" />
+                <div className="img-overlay"></div>
+                <div className="actionBtn-grp">
+                <Link href={`/EditBlog/${blog.id}`} className="editBtn">📝</Link>
+                <button className='deleteBtn' onClick={deleteBlogFn}>🗑️</button>
+            </div>
             </div>
             <div className="blog-content-wrap">
                 <p className="blog-title">{blog.title}</p>
@@ -29,13 +37,7 @@ function BlogCard({ blog }) {
             </div>
             <Link href={`/BlogDetails/${blog.id}`} className='readMoreLink'>Read More ╰┈➤</Link>
             {/* <p className="readMoreBtn" href={"/BlogDetails"}>Read More</p> */}
-            <div className="actionBtn-grp">
-                {/* <button className='editBtn'>
-  <                 Link href={`/EditBlog/${blog.id}`}>📝</Link>
-                </button> */}
-                <Link href={`/EditBlog/${blog.id}`} className="editBtn">📝</Link>
-                <button className='deleteBtn' onClick={deleteBlogFn}>🗑️</button>
-            </div>
+            
         </div>
     )
 }

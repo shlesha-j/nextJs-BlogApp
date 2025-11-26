@@ -4,8 +4,13 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { editBlog } from "@/app/utils/BlogApi";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
+
 
 export default function EditBlogClient({ id }) {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
 
   const {
@@ -26,7 +31,7 @@ export default function EditBlogClient({ id }) {
       setValue("description", data.description);
       setValue("content", data.content);
       setValue("photo_url", data.photo_url);
-
+      setValue("detail_photo", data.detail_photo);
       setLoading(false);
     }
 
@@ -43,9 +48,12 @@ export default function EditBlogClient({ id }) {
 
   const onSubmit = async (data) => {
     let updatedImage = data.photo_url;
-
+    let updatedDetailImg = data.detail_photo;
     if (data.new_photo?.[0]) {
       updatedImage = await toBase64(data.new_photo[0]);
+    }
+    if (data.new_detailphoto?.[0]) {
+      updatedDetailImg = await toBase64(data.new_detailphoto[0]);
     }
 
     const updatedData = {
@@ -53,44 +61,62 @@ export default function EditBlogClient({ id }) {
       description: data.description,
       content: data.content,
       photo_url: updatedImage,
+      detail_photo :updatedDetailImg,
     };
 
     await editBlog(id, updatedData);
-    alert("Blog updated successfully!");
+    toast.success("Blog updated successfully!");
+    router.push("/Blogs");
   };
 
   if (loading) return <p>Loading...</p>;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h2>Edit Blog</h2>
+    <section>
+      <div className="container">
+        <h2 className="txt-center">Edit Blog</h2>
+        <div className="blogcreation">
+           <form onSubmit={handleSubmit(onSubmit)}>
+      
 
-      <div>
+      <div className="form-grp">
         <label>Title</label>
         <input {...register("title", { required: true })} />
       </div>
 
-      <div>
+      <div className="form-grp">
         <label>Description</label>
         <input {...register("description", { required: true })} />
       </div>
 
-      <div>
+      <div className="form-grp">
         <label>Current Image</label>
         <img src={watch("photo_url")} width="160" />
       </div>
 
-      <div>
+      <div className="form-grp">
         <label>Upload New Image</label>
         <input type="file" {...register("new_photo")} />
       </div>
 
-      <div>
+      <div className="form-grp">
         <label>Content</label>
-        <textarea rows={8} {...register("content", { required: true })}></textarea>
+        <textarea rows="10" cols="50" {...register("content", { required: true })}></textarea>
+      </div>
+      <div className="form-grp">
+        <label>Current Image</label>
+        <img src={watch("detail_photo")} width="200" />
+      </div>
+      <div className="form-grp">
+        <label>Upload Detail Image</label>
+        <input type="file" {...register("new_detailphoto")} />
       </div>
 
-      <button type="submit">{isSubmitting ? "Updating..." : "Update Blog"}</button>
+      <button type="submit" className="submitBtn">{isSubmitting ? "Updating..." : "Update Blog"}</button>
     </form>
+        </div>
+      </div>
+    </section>
+   
   );
 }

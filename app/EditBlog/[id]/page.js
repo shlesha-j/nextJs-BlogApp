@@ -5,7 +5,7 @@ export default function Page(props) {
   const { id } = use(props.params); // unwrapping params
   return (
     <section>
-        <div className="container editblog-page">
+        <div className="container">
             <EditBlogClient id={id} />
         </div>
     </section>
