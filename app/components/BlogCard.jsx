@@ -22,6 +22,11 @@ function BlogCard({ blog }) {
     return (
         <div className="blog-card">
             {/* <div id="overlay"></div> */}
+            <div className='rel-info'>
+                <p>16. March 2022</p>
+                <span className='tag'>{blog.category}</span>
+            </div>
+            
             <div className="blog-img-wrap">
                 <img src={blog.photo_url} alt={blog.title} width="400" height="400" />
                 <div className="img-overlay"></div>

@@ -111,9 +111,20 @@ export default function Home() {
               <div className="blog-content">
                 <h5>{blog.title}</h5>
                 <p>{blog.description}</p>
-                <span className="readmore-wrap">
-                  <Link href={`/BlogDetails/${blog.id}`}>↗</Link>
-                </span>
+                <div className="blog-extraInfo">
+                  <div>
+                    <h5>Date</h5>
+                    <p>16. March 2022</p>
+                  </div>
+                  <div>
+                    <h5>Read</h5>
+                    <p>2 Min</p>
+                  </div>
+                  <span className="readmore-wrap">
+                    <Link href={`/BlogDetails/${blog.id}`}>↗</Link>
+                  </span>
+                </div>
+
               </div>
             </div>
           ))}

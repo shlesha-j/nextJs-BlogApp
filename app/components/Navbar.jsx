@@ -6,6 +6,14 @@ import Image from "next/image";
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [theme, setTheme] = useState("light"); // default light
+  const [menuOpen, setMenuOpen] = useState(false); // hamburger menu state
+  const [activeNav, setActiveNav] = useState(""); // active link
+
+  const navItems = [
+    { name: "Blogs", href: "/Blogs" },
+    { name: "BlogCreation", href: "/BlogCreation" },
+    { name: "About", href: "/AboutUs" },
+  ];
 
   // Load theme on mount
   useEffect(() => {
@@ -19,7 +27,6 @@ function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 80);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -27,7 +34,6 @@ function Navbar() {
   // Apply the selected theme
   const applyTheme = (theme) => {
     const root = document.documentElement;
-
     if (theme === "dark") {
       root.classList.add("dark");
       root.classList.remove("light");
@@ -45,47 +51,68 @@ function Navbar() {
     applyTheme(nextTheme);
   };
 
+  // Hamburger menu toggle
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
+    document.body.style.overflow = !menuOpen ? "hidden" : "auto";
+  };
+
+  // Handle nav item click
+  const handleNavClick = (name) => {
+    setActiveNav(name);
+    setMenuOpen(false);
+    document.body.style.overflow = "auto";
+  };
+
   return (
-    <div>
-      <nav className={`navbar ${isScrolled ? 'nav-shadow scrolled' : ''}`}>
-        <div className="container">
-          <div className="main-nav">
-            <div className="logo-wrap">
-              <Link href="/" className='logo scrolled'>
-                FYREE MAGAZINE
-                {/* <Image src="/images/FyrreMagazine.png" alt="Fyrre Magazine Logo" width={200} height={18} /> */}
-              </Link>
-            </div>
+    <nav className={`navbar ${isScrolled ? 'nav-shadow scrolled' : ''}`}>
+      <div className="container">
+        <div className="main-nav">
+          <div className="logo-wrap">
+            <Link href="/" className='logo'>
+              FYREE MAGAZINE
+              {/* <Image src="/images/FyrreMagazine.png" alt="Fyrre Magazine Logo" width={200} height={18} /> */}
+            </Link>
+          </div>
 
-            <div className="nav-links">
-              <ul>
-                <li><Link href={"/Blogs"} className='nav-link'>Blogs</Link></li>
-                <li><Link href={"/BlogCreation"} className='nav-link'>BlogCreation</Link></li>
-                <li><Link href={"/AboutUs"} className='nav-link'>About</Link></li>
-
-                {/* 🌙 Light/Dark Toggle */}
-                <li>
-                  <button 
-                    onClick={toggleTheme}
-                    className="theme-toggle-btn"
-                    style={{
-                      padding: "6px 12px",
-                      borderRadius: "8px",
-                      background: "transparent",
-                      border: "1px solid var(--foreground)",
-                      cursor: "pointer"
-                    }}
-                  >
-                    {theme === "light" ? "🌙" : "🌞"}
-                  </button>
+          {/* Navigation Links */}
+          <div className={`nav-links xinder-links ${menuOpen ? "active" : ""}`}>
+            <ul>
+              {navItems.map(item => (
+                <li key={item.name} className={`nav-item ${activeNav === item.name ? "active" : ""}`}>
+                  <Link href={item.href} className="nav-link" onClick={() => handleNavClick(item.name)}>
+                    {item.name}
+                  </Link>
                 </li>
+              ))}
 
-              </ul>
-            </div>
+              <li>
+                <button
+                  onClick={toggleTheme}
+                  className="theme-toggle-btn"
+                  style={{
+                    padding: "6px 12px",
+                    borderRadius: "8px",
+                    background: "transparent",
+                    border: "1px solid var(--foreground)",
+                    cursor: "pointer"
+                  }}
+                >
+                  {theme === "light" ? "🌙" : "🌞"}
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Hamburger menu */}
+          <div className={`ham-menu ${menuOpen ? "active" : ""}`} onClick={handleMenuToggle}>
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
         </div>
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
 }
 

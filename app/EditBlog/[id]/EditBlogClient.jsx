@@ -29,6 +29,7 @@ export default function EditBlogClient({ id }) {
 
       setValue("title", data.title);
       setValue("description", data.description);
+      setValue("category", data.category);
       setValue("content", data.content);
       setValue("photo_url", data.photo_url);
       setValue("detail_photo", data.detail_photo);
@@ -59,9 +60,10 @@ export default function EditBlogClient({ id }) {
     const updatedData = {
       title: data.title,
       description: data.description,
+      category: data.category,
       content: data.content,
       photo_url: updatedImage,
-      detail_photo :updatedDetailImg,
+      detail_photo: updatedDetailImg,
     };
 
     await editBlog(id, updatedData);
@@ -76,47 +78,64 @@ export default function EditBlogClient({ id }) {
       <div className="container">
         <h2 className="txt-center">Edit Blog</h2>
         <div className="blogcreation">
-           <form onSubmit={handleSubmit(onSubmit)}>
-      
+          <form onSubmit={handleSubmit(onSubmit)}>
 
-      <div className="form-grp">
-        <label>Title</label>
-        <input {...register("title", { required: true })} />
-      </div>
 
-      <div className="form-grp">
-        <label>Description</label>
-        <input {...register("description", { required: true })} />
-      </div>
+            <div className="form-grp">
+              <label>Title</label>
+              <input {...register("title", { required: true })} />
+            </div>
 
-      <div className="form-grp">
-        <label>Current Image</label>
-        <img src={watch("photo_url")} width="160" />
-      </div>
+            <div className="form-grp">
+              <label>Description</label>
+              <input {...register("description", { required: true })} />
+            </div>
+            <div className="form-grp">
+              <label>Category</label>
 
-      <div className="form-grp">
-        <label>Upload New Image</label>
-        <input type="file" {...register("new_photo")} />
-      </div>
+              <select
+                {...register("category", { required: true })}
+              >
+                <option value="">Select</option>
+                <option value="Art">Art</option>
+                <option value="Street Art">Street Art</option>
+                <option value="Sculpture">Sculpture</option>
+              </select>
 
-      <div className="form-grp">
-        <label>Content</label>
-        <textarea rows="10" cols="50" {...register("content", { required: true })}></textarea>
-      </div>
-      <div className="form-grp">
-        <label>Current Image</label>
-        <img src={watch("detail_photo")} width="200" />
-      </div>
-      <div className="form-grp">
-        <label>Upload Detail Image</label>
-        <input type="file" {...register("new_detailphoto")} />
-      </div>
+              {errors.category && (
+                <p style={{ color: "red" }}>This field is required</p>
+              )}
+            </div>
 
-      <button type="submit" className="submitBtn">{isSubmitting ? "Updating..." : "Update Blog"}</button>
-    </form>
+
+            <div className="form-grp">
+              <label>Current Image</label>
+              <img src={watch("photo_url")} width="160" />
+            </div>
+
+            <div className="form-grp">
+              <label>Upload New Image</label>
+              <input type="file" {...register("new_photo")} />
+            </div>
+
+            <div className="form-grp">
+              <label>Content</label>
+              <textarea rows="5" cols="50" {...register("content", { required: true })}></textarea>
+            </div>
+            <div className="form-grp">
+              <label>Current Image</label>
+              <img src={watch("detail_photo")} width="200" />
+            </div>
+            <div className="form-grp">
+              <label>Upload Detail Image</label>
+              <input type="file" {...register("new_detailphoto")} />
+            </div>
+
+            <button type="submit" className="submitBtn">{isSubmitting ? "Updating..." : "Update Blog"}</button>
+          </form>
         </div>
       </div>
     </section>
-   
+
   );
 }
