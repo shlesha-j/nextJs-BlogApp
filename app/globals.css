@@ -284,7 +284,7 @@ button:hover {
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
-  line-height: 20px;
+  line-height: 22px;
   margin-bottom: 12px;
 }
 
@@ -639,6 +639,7 @@ button:hover {
 .blog-head {
   display: flex;
   margin-bottom: 100px;
+  align-items: center;
 }
 
 .blog-body {

@@ -5,18 +5,33 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function BlogCard({ blog }) {
+function BlogCard({ blog, refreshBlogs  }) {
     const router = useRouter();
+    // async function deleteBlogFn() {
+    //     const sure = confirm("Are you sure you want to delete this blog?");
+    //     if (!sure) return;
+    //     try {
+    //         await deleteBlog(blog.id);
+    //         toast.success("Blog deleted successfully!")
+    //         // router.push("/Blogs");
+    //         router.refresh(); 
+    //     } catch (error) {
+    //         toast.warning("Failed to delete blog");
+    //     }   
+    // }
+
     async function deleteBlogFn() {
         const sure = confirm("Are you sure you want to delete this blog?");
         if (!sure) return;
+
         try {
             await deleteBlog(blog.id);
-            toast.success("Blog deleted successfully!")
-            router.push("/Blogs");
+            toast.success("Blog deleted successfully!");
+
+            await refreshBlogs(); 
         } catch (error) {
             toast.warning("Failed to delete blog");
-        }   
+        }
     }
 
     return (

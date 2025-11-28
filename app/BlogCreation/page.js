@@ -26,7 +26,6 @@ function BlogCreatePage() {
 
   const onSubmit = async (data) => {
     try {
-      // Convert selected image to Base64
       const file = data.photo_url[0];
       const base64Image = await toBase64(file);
 

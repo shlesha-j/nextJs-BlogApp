@@ -5,9 +5,9 @@ import Image from "next/image";
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [theme, setTheme] = useState("light"); // default light
-  const [menuOpen, setMenuOpen] = useState(false); // hamburger menu state
-  const [activeNav, setActiveNav] = useState(""); // active link
+  const [theme, setTheme] = useState("light"); 
+  const [menuOpen, setMenuOpen] = useState(false); 
+  const [activeNav, setActiveNav] = useState(""); 
 
   const navItems = [
     { name: "Blogs", href: "/Blogs" },
@@ -15,14 +15,14 @@ function Navbar() {
     { name: "About", href: "/AboutUs" },
   ];
 
-  // Load theme on mount
+
   useEffect(() => {
     const saved = localStorage.getItem("theme") || "light";
     setTheme(saved);
     applyTheme(saved);
   }, []);
 
-  // Scroll event
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 80);
@@ -31,7 +31,7 @@ function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Apply the selected theme
+
   const applyTheme = (theme) => {
     const root = document.documentElement;
     if (theme === "dark") {
@@ -43,7 +43,7 @@ function Navbar() {
     }
   };
 
-  // Toggle Light ↔ Dark
+
   const toggleTheme = () => {
     const nextTheme = theme === "light" ? "dark" : "light";
     setTheme(nextTheme);
@@ -51,13 +51,13 @@ function Navbar() {
     applyTheme(nextTheme);
   };
 
-  // Hamburger menu toggle
+
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
     document.body.style.overflow = !menuOpen ? "hidden" : "auto";
   };
 
-  // Handle nav item click
+
   const handleNavClick = (name) => {
     setActiveNav(name);
     setMenuOpen(false);
@@ -75,7 +75,7 @@ function Navbar() {
             </Link>
           </div>
 
-          {/* Navigation Links */}
+          
           <div className={`nav-links xinder-links ${menuOpen ? "active" : ""}`}>
             <ul>
               {navItems.map(item => (
@@ -104,7 +104,7 @@ function Navbar() {
             </ul>
           </div>
 
-          {/* Hamburger menu */}
+          
           <div className={`ham-menu ${menuOpen ? "active" : ""}`} onClick={handleMenuToggle}>
             <span></span>
             <span></span>

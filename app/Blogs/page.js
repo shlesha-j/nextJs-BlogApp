@@ -7,14 +7,15 @@ function Page() {
     const [blogs, setBlogs] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("All");
 
+    async function loadBlogs() {
+        const data = await fetchBlogs();
+        setBlogs(data);
+    }
+
     useEffect(() => {
-        (async () => {
-            const data = await fetchBlogs();
-            setBlogs(data);
-        })();
+        loadBlogs();
     }, []);
 
-    // Filter blogs based on selected category
     const filteredBlogs = selectedCategory === "All"
         ? [...blogs].reverse()
         : [...blogs].filter(blog => blog.category === selectedCategory).reverse();
@@ -39,9 +40,12 @@ function Page() {
                         ))}
                     </div>
                 </div>
+
                 <div className='blogs-wrap'>
                     {filteredBlogs.length > 0 ? (
-                        filteredBlogs.map((blog, i) => <BlogCard key={i} blog={blog} />)
+                        filteredBlogs.map((blog, i) => (
+                            <BlogCard key={i} blog={blog} refreshBlogs={loadBlogs} />
+                        ))
                     ) : (
                         <p>No blogs available in this category.</p>
                     )}
