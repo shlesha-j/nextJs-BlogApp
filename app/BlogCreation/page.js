@@ -32,7 +32,7 @@ function BlogCreatePage() {
       const blogData = {
         title: data.title,
         description: data.description,
-        category : data.category,
+        category: data.category,
         photo_url: base64Image, // send Base64 to API
         content: data.content,
         detail_photo: base64Image,
@@ -99,8 +99,8 @@ function BlogCreatePage() {
             <option value="sculpture">Sculpture</option>
           </select>
           {errors.category && (
-              <p style={{ color: "red" }}>{errors.category.message}</p>
-            )}
+            <p style={{ color: "red" }}>{errors.category.message}</p>
+          )}
         </div>
         <div className="form-grp">
           <label>Upload Image</label>
