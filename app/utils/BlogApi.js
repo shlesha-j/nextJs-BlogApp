@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:4000/blogs";
+const API_URL = "http://localhost:3002/data/data.json";
 
 
 // export const fetchBlogs = async () => {
@@ -16,12 +16,11 @@ const API_URL = "http://localhost:4000/blogs";
 
 export const fetchBlogs = async () => {
   const res = await fetch(API_URL, {
-    cache: "no-store", 
+    cache: "no-store",
   });
-
   if (!res.ok) throw new Error("Failed to fetch blogs");
-
-  return res.json();
+  const data = await res.json(); 
+  return data.blogs;
 };
 
 
