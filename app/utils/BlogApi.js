@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:4000/blogs";
+// const API_URL = "http://localhost:4000/blogs";
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/blogs`;
+
 
 
 // export const fetchBlogs = async () => {
