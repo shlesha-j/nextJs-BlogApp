@@ -110,7 +110,8 @@ export default function EditBlogClient({ id }) {
       // If new main image selected
       if (data.new_photo?.[0]) {
         const file = data.new_photo[0];
-        const fileName = `${Date.now()}-${file.name}`;
+        const uniqueId = Math.random().toString(36).substring(7);
+        const fileName = `${Date.now()}-${uniqueId}-${file.name}`;
 
         const { error } = await supabase.storage
           .from("blog-images")
@@ -128,7 +129,8 @@ export default function EditBlogClient({ id }) {
       // If new detail image selected
       if (data.new_detailphoto?.[0]) {
         const file = data.new_detailphoto[0];
-        const fileName = `${Date.now()}-${file.name}`;
+        const detailUniqueId = Math.random().toString(36).substring(7);
+        const fileName = `${Date.now()}-${detailUniqueId}-${file.name}`;
 
         const { error } = await supabase.storage
           .from("blog-images")

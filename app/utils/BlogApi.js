@@ -17,17 +17,27 @@ export const fetchBlogs = async () => {
 
 // ✅ Add Blog
 export const addBlog = async (blog) => {
-  const { data, error } = await supabase
-    .from("blogs")
-    .insert([blog])
-    .select();
+  try {
+    console.log("Adding blog with data:", blog);
 
-  if (error) {
-    console.error("Error adding blog:", error);
-    throw error;
+    const response = await fetch("/api/blogs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "add", data: blog }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "Failed to add blog");
+    }
+
+    const result = await response.json();
+    console.log("Blog added successfully");
+    return result;
+  } catch (err) {
+    console.error("Error in addBlog:", err);
+    throw err;
   }
-
-  return data;
 };
 
 // ✅ Delete Blog
@@ -44,50 +54,53 @@ export const addBlog = async (blog) => {
 // };
 
 export const deleteBlog = async (id) => {
-  // 1️⃣ Get blog first (to get image paths)
-  const { data: blog, error: fetchError } = await supabase
-    .from("blogs")
-    .select("photo_url, detail_photo")
-    .eq("id", id)
-    .single();
+  try {
+    console.log("Deleting blog with ID:", id);
 
-  if (fetchError) throw fetchError;
+    const response = await fetch("/api/blogs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "delete", id }),
+    });
 
-  // 2️⃣ Delete images from storage
-  if (blog.photo_url) {
-    const mainPath = blog.photo_url.split("/blog-images/")[1];
-    await supabase.storage.from("blog-images").remove([mainPath]);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "Failed to delete blog");
+    }
+
+    const result = await response.json();
+    console.log("Blog deleted successfully");
+    return result;
+  } catch (err) {
+    console.error("Error in deleteBlog:", err);
+    throw err;
   }
-
-  if (blog.detail_photo) {
-    const detailPath = blog.detail_photo.split("/blog-images/")[1];
-    await supabase.storage.from("blog-images").remove([detailPath]);
-  }
-
-  // 3️⃣ Delete row from DB
-  const { error } = await supabase
-    .from("blogs")
-    .delete()
-    .eq("id", id);
-
-  if (error) throw error;
 };
 
 
 // ✅ Edit Blog
 export const editBlog = async (id, updatedData) => {
-  const { data, error } = await supabase
-    .from("blogs")
-    .update(updatedData)
-    .eq("id", id)
-    .select();
+  try {
+    console.log("Updating blog with ID:", id, "Data:", updatedData);
 
-  if (error) {
-    console.error("Error updating blog:", error);
-    throw error;
+    const response = await fetch("/api/blogs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "update", id, data: updatedData }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "Failed to update blog");
+    }
+
+    const result = await response.json();
+    console.log("Blog updated successfully");
+    return result;
+  } catch (err) {
+    console.error("Error in editBlog:", err);
+    throw err;
   }
-
-  return data;
 };
 
 export const fetchSingleBlog = async (id) => {

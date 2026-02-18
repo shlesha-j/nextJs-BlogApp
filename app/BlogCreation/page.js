@@ -57,9 +57,10 @@ function BlogCreatePage() {
       const detailFile = data.detail_photo[0];
 
       // 1️⃣ Upload Main Image
-      const imageName = `${Date.now()}-${imageFile.name}`;
+      const uniqueId = Math.random().toString(36).substring(7);
+      const imageName = `${Date.now()}-${uniqueId}-${imageFile.name}`;
       const { data: imgData, error: imgError } = await supabase.storage
-        .from("blog-images") // your bucket name
+        .from("blog-images")
         .upload(imageName, imageFile);
 
       if (imgError) throw imgError;
@@ -69,7 +70,8 @@ function BlogCreatePage() {
         .getPublicUrl(imageName);
 
       // 2️⃣ Upload Detail Image
-      const detailName = `${Date.now()}-${detailFile.name}`;
+      const detailUniqueId = Math.random().toString(36).substring(7);
+      const detailName = `${Date.now()}-${detailUniqueId}-${detailFile.name}`;
       const { error: detailError } = await supabase.storage
         .from("blog-images")
         .upload(detailName, detailFile);
