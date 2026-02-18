@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+// import axios from "axios";
 import { editBlog } from "@/app/utils/BlogApi";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
-
+import { supabase } from "@/lib/supabase";
 
 export default function EditBlogClient({ id }) {
   const router = useRouter();
@@ -22,54 +22,146 @@ export default function EditBlogClient({ id }) {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  useEffect(() => {
-    async function fetchBlog() {
-      const res = await axios.get(`http://localhost:4000/blogs/${id}`);
-      const data = res.data;
+  // useEffect(() => {
+  //   async function fetchBlog() {
+  //     const res = await axios.get(`http://localhost:4000/blogs/${id}`);
+  //     const data = res.data;
 
-      setValue("title", data.title);
-      setValue("description", data.description);
-      setValue("category", data.category);
-      setValue("content", data.content);
-      setValue("photo_url", data.photo_url);
-      setValue("detail_photo", data.detail_photo);
-      setLoading(false);
+  //     setValue("title", data.title);
+  //     setValue("description", data.description);
+  //     setValue("category", data.category);
+  //     setValue("content", data.content);
+  //     setValue("photo_url", data.photo_url);
+  //     setValue("detail_photo", data.detail_photo);
+  //     setLoading(false);
+  //   }
+
+  //   fetchBlog();
+  // }, [id, setValue]);
+
+
+  useEffect(() => {
+  async function fetchBlog() {
+    const { data, error } = await supabase
+      .from("blogs")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) {
+      console.error(error);
+      toast.error("Failed to load blog");
+      return;
     }
 
-    fetchBlog();
-  }, [id, setValue]);
+    setValue("title", data.title);
+    setValue("description", data.description);
+    setValue("category", data.category);
+    setValue("content", data.content);
+    setValue("photo_url", data.photo_url);
+    setValue("detail_photo", data.detail_photo);
 
-  const toBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-    });
+    setLoading(false);
+  }
+
+  fetchBlog();
+}, [id, setValue]);
+
+
+  // const toBase64 = (file) =>
+  //   new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => resolve(reader.result);
+  //     reader.onerror = reject;
+  //   });
+
+  // const onSubmit = async (data) => {
+  //   let updatedImage = data.photo_url;
+  //   let updatedDetailImg = data.detail_photo;
+  //   if (data.new_photo?.[0]) {
+  //     updatedImage = await toBase64(data.new_photo[0]);
+  //   }
+  //   if (data.new_detailphoto?.[0]) {
+  //     updatedDetailImg = await toBase64(data.new_detailphoto[0]);
+  //   }
+
+  //   const updatedData = {
+  //     title: data.title,
+  //     description: data.description,
+  //     category: data.category,
+  //     content: data.content,
+  //     photo_url: updatedImage,
+  //     detail_photo: updatedDetailImg,
+  //   };
+
+  //   await editBlog(id, updatedData);
+  //   toast.success("Blog updated successfully!");
+  //   router.push("/Blogs");
+  // };
+
+
 
   const onSubmit = async (data) => {
-    let updatedImage = data.photo_url;
-    let updatedDetailImg = data.detail_photo;
-    if (data.new_photo?.[0]) {
-      updatedImage = await toBase64(data.new_photo[0]);
-    }
-    if (data.new_detailphoto?.[0]) {
-      updatedDetailImg = await toBase64(data.new_detailphoto[0]);
-    }
+    try {
+      let updatedImage = data.photo_url;
+      let updatedDetailImg = data.detail_photo;
 
-    const updatedData = {
-      title: data.title,
-      description: data.description,
-      category: data.category,
-      content: data.content,
-      photo_url: updatedImage,
-      detail_photo: updatedDetailImg,
-    };
+      // If new main image selected
+      if (data.new_photo?.[0]) {
+        const file = data.new_photo[0];
+        const fileName = `${Date.now()}-${file.name}`;
 
-    await editBlog(id, updatedData);
-    toast.success("Blog updated successfully!");
-    router.push("/Blogs");
+        const { error } = await supabase.storage
+          .from("blog-images")
+          .upload(fileName, file);
+
+        if (error) throw error;
+
+        const { data: publicUrl } = supabase.storage
+          .from("blog-images")
+          .getPublicUrl(fileName);
+
+        updatedImage = publicUrl.publicUrl;
+      }
+
+      // If new detail image selected
+      if (data.new_detailphoto?.[0]) {
+        const file = data.new_detailphoto[0];
+        const fileName = `${Date.now()}-${file.name}`;
+
+        const { error } = await supabase.storage
+          .from("blog-images")
+          .upload(fileName, file);
+
+        if (error) throw error;
+
+        const { data: publicUrl } = supabase.storage
+          .from("blog-images")
+          .getPublicUrl(fileName);
+
+        updatedDetailImg = publicUrl.publicUrl;
+      }
+
+      const updatedData = {
+        title: data.title,
+        description: data.description,
+        category: data.category,
+        content: data.content,
+        photo_url: updatedImage,
+        detail_photo: updatedDetailImg,
+      };
+
+      await editBlog(id, updatedData);
+
+      toast.success("Blog updated successfully!");
+      router.push("/Blogs");
+    } catch (err) {
+      console.error(err);
+      toast.error("Update failed");
+    }
   };
+
 
   if (loading) return <p>Loading...</p>;
 

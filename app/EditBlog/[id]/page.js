@@ -1,14 +1,13 @@
-import { use } from "react";
 import EditBlogClient from "./EditBlogClient";
 
-export default function Page(props) {
-  const { id } = use(props.params); 
+export default async function Page({ params }) {
+  const { id } = await params;
+
   return (
     <section>
-        <div className="container">
-            <EditBlogClient id={id} />
-        </div>
+      <div className="container">
+        <EditBlogClient id={id} />
+      </div>
     </section>
-  
-)
+  );
 }

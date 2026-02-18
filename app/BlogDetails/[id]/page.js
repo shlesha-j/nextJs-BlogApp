@@ -1,24 +1,29 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
-import { fetchBlogs, deleteBlog, updateBlog } from "@/app/utils/BlogApi";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { fetchSingleBlog } from "@/app/utils/BlogApi";
+import { useRouter, useParams } from "next/navigation";
+
 import Link from "next/link";
 
-export default function BlogDetailPage({ params }) {
-  const { id } = use(params);
+export default function BlogDetailPage() {
+  const params = useParams();
+  const id = params.id;
   const [blog, setBlog] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    (async () => {
-      const blogs = await fetchBlogs();
-      const selectedBlog = blogs.find(
-        (item) => String(item.id) === String(id)
-      );
-      setBlog(selectedBlog);
-    })();
-  }, [id]);
+  async function getBlog() {
+    try {
+      const data = await fetchSingleBlog(id);
+      setBlog(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  if (id) getBlog();
+}, [id]);
 
   if (!blog) return <p>Loading...</p>;
 
@@ -46,7 +51,7 @@ export default function BlogDetailPage({ params }) {
             <h2>{blog.title}</h2>
             <p className="blog-desc">{blog.description}</p>
           </div>
-          <img src={blog.detail_photo} width={600} height={400}  className="blog-detailImg"/>
+          <img src={blog.detail_photo || "/placeholder.jpg"} width={600} height={400}  className="blog-detailImg"/>
           <div className="blog-body">
             <div className="autho-details">
                 <div className="author-profile">

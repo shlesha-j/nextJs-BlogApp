@@ -5,6 +5,7 @@ import { addBlog } from "../utils/BlogApi";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 function BlogCreatePage() {
   const router = useRouter();
@@ -15,40 +16,91 @@ function BlogCreatePage() {
     formState: { errors, isSubmitting },
   } = useForm({ mode: "onChange" });
 
-  const toBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (err) => reject(err);
-    });
+  // const toBase64 = (file) =>
+  //   new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => resolve(reader.result);
+  //     reader.onerror = (err) => reject(err);
+  //   });
 
+
+  // const onSubmit = async (data) => {
+  //   try {
+  //     const file = data.photo_url[0];
+  //     const base64Image = await toBase64(file);
+
+  //     const blogData = {
+  //       title: data.title,
+  //       description: data.description,
+  //       category: data.category,
+  //       photo_url: base64Image, // send Base64 to API
+  //       content: data.content,
+  //       detail_photo: base64Image,
+  //     };
+
+  //     await addBlog(blogData);
+  //     debugger
+  //     toast.success("Blog Added Successfully");
+  //     router.push("/Blogs");
+  //     // alert("Blog Added Successfully");
+  //     // reset();
+  //   } catch (err) {
+  //     console.error("Error adding blog:", err);
+  //     toast.warning("Something went wrong");
+  //   }
+  // };
 
   const onSubmit = async (data) => {
     try {
-      const file = data.photo_url[0];
-      const base64Image = await toBase64(file);
+      const imageFile = data.photo_url[0];
+      const detailFile = data.detail_photo[0];
 
+      // 1️⃣ Upload Main Image
+      const imageName = `${Date.now()}-${imageFile.name}`;
+      const { data: imgData, error: imgError } = await supabase.storage
+        .from("blog-images") // your bucket name
+        .upload(imageName, imageFile);
+
+      if (imgError) throw imgError;
+
+      const { data: publicImage } = supabase.storage
+        .from("blog-images")
+        .getPublicUrl(imageName);
+
+      // 2️⃣ Upload Detail Image
+      const detailName = `${Date.now()}-${detailFile.name}`;
+      const { error: detailError } = await supabase.storage
+        .from("blog-images")
+        .upload(detailName, detailFile);
+
+      if (detailError) throw detailError;
+
+      const { data: publicDetail } = supabase.storage
+        .from("blog-images")
+        .getPublicUrl(detailName);
+
+      // 3️⃣ Save to database
       const blogData = {
         title: data.title,
         description: data.description,
         category: data.category,
-        photo_url: base64Image, // send Base64 to API
         content: data.content,
-        detail_photo: base64Image,
+        photo_url: publicImage.publicUrl,
+        detail_photo: publicDetail.publicUrl,
       };
 
       await addBlog(blogData);
-      debugger
+
       toast.success("Blog Added Successfully");
       router.push("/Blogs");
-      // alert("Blog Added Successfully");
-      // reset();
     } catch (err) {
-      console.error("Error adding blog:", err);
-      toast.warning("Something went wrong");
+      console.error(err);
+      toast.error("Upload failed");
     }
   };
+
+
 
   return (
     <div className="container blogcreation">

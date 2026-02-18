@@ -8,9 +8,14 @@ function Page() {
     const [selectedCategory, setSelectedCategory] = useState("All");
 
     async function loadBlogs() {
-        const data = await fetchBlogs();
-        setBlogs(data);
+        try {
+            const data = await fetchBlogs();
+            setBlogs(data || []);
+        } catch (error) {
+            console.error(error);
+        }
     }
+
 
     useEffect(() => {
         loadBlogs();
@@ -44,7 +49,7 @@ function Page() {
                 <div className='blogs-wrap'>
                     {filteredBlogs.length > 0 ? (
                         filteredBlogs.map((blog, i) => (
-                            <BlogCard key={i} blog={blog} refreshBlogs={loadBlogs} />
+                            <BlogCard key={blog.id} blog={blog} refreshBlogs={loadBlogs} />
                         ))
                     ) : (
                         <p>No blogs available in this category.</p>

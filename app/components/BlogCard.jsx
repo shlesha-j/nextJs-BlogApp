@@ -43,7 +43,7 @@ function BlogCard({ blog, refreshBlogs  }) {
             </div>
             
             <div className="blog-img-wrap">
-                <img src={blog.photo_url} alt={blog.title} width="400" height="400" />
+                <img src={blog.photo_url || "/placeholder.jpg"} alt={blog.title} width="400" height="400" />
                 <div className="img-overlay"></div>
                 <div className="actionBtn-grp">
                 <Link href={`/EditBlog/${blog.id}`} className="editBtn">📝</Link>

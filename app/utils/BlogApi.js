@@ -1,59 +1,104 @@
-import axios from "axios";
+import { supabase } from "@/lib/supabase";
 
-// const API_URL = "http://localhost:4000/blogs";
-const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/blogs`;
+// ✅ Fetch Blogs
+export const fetchBlogs = async () => {
+  const { data, error } = await supabase
+    .from("blogs")
+    .select("*")
+    .order("id", { ascending: false });
 
+  if (error) {
+    console.error("Error fetching blogs:", error);
+    throw error;
+  }
 
+  return data;
+};
 
-// export const fetchBlogs = async () => {
-//   try {
-//     const response = await axios.get(API_URL);
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching blogs:", error);
+// ✅ Add Blog
+export const addBlog = async (blog) => {
+  const { data, error } = await supabase
+    .from("blogs")
+    .insert([blog])
+    .select();
+
+  if (error) {
+    console.error("Error adding blog:", error);
+    throw error;
+  }
+
+  return data;
+};
+
+// ✅ Delete Blog
+// export const deleteBlog = async (id) => {
+//   const { error } = await supabase
+//     .from("blogs")
+//     .delete()
+//     .eq("id", id);
+
+//   if (error) {
+//     console.error("Error deleting blog:", error);
 //     throw error;
 //   }
 // };
 
-
-export const fetchBlogs = async () => {
-  const res = await fetch(API_URL, {
-    cache: "no-store", 
-  });
-
-  if (!res.ok) throw new Error("Failed to fetch blogs");
-
-  return res.json();
-};
-
-
-export const addBlog = async (data) => {
-  try {
-    const response = await axios.post(API_URL, data);
-    return response.data;
-  } catch (error) {
-    console.error("Error adding blog:", error);
-    throw error;
-  }
-};
-
-
 export const deleteBlog = async (id) => {
-  try {
-    const response = await axios.delete(`${API_URL}/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error deleting blog:", error);
-    throw error;
+  // 1️⃣ Get blog first (to get image paths)
+  const { data: blog, error: fetchError } = await supabase
+    .from("blogs")
+    .select("photo_url, detail_photo")
+    .eq("id", id)
+    .single();
+
+  if (fetchError) throw fetchError;
+
+  // 2️⃣ Delete images from storage
+  if (blog.photo_url) {
+    const mainPath = blog.photo_url.split("/blog-images/")[1];
+    await supabase.storage.from("blog-images").remove([mainPath]);
   }
+
+  if (blog.detail_photo) {
+    const detailPath = blog.detail_photo.split("/blog-images/")[1];
+    await supabase.storage.from("blog-images").remove([detailPath]);
+  }
+
+  // 3️⃣ Delete row from DB
+  const { error } = await supabase
+    .from("blogs")
+    .delete()
+    .eq("id", id);
+
+  if (error) throw error;
 };
 
-export const editBlog = async (id, data) => {
-  try {
-    const response = await axios.put(`${API_URL}/${id}`, data);
-    return response.data;
-  } catch (error) {
-    console.error("Error editing blog:", error);
+
+// ✅ Edit Blog
+export const editBlog = async (id, updatedData) => {
+  const { data, error } = await supabase
+    .from("blogs")
+    .update(updatedData)
+    .eq("id", id)
+    .select();
+
+  if (error) {
+    console.error("Error updating blog:", error);
     throw error;
   }
+
+  return data;
 };
+
+export const fetchSingleBlog = async (id) => {
+  const { data, error } = await supabase
+    .from("blogs")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) throw error;
+
+  return data;
+};
+
