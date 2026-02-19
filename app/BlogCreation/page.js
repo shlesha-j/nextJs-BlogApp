@@ -149,8 +149,8 @@ function BlogCreatePage() {
             id="category">
             <option value="select">Select</option>
             <option value="Art">Art</option>
-            <option value="streetArt">Street Art</option>
-            <option value="sculpture">Sculpture</option>
+            <option value="Street Art">Street Art</option>
+            <option value="Sculpture">Sculpture</option>
           </select>
           {errors.category && (
             <p style={{ color: "red" }}>{errors.category.message}</p>
