@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+📝 Next.js Blog App
 
-## Getting Started
+A modern Blog Application built with Next.js that supports CRUD operations, dynamic routing, form validation, dark mode, image uploads, and toast notifications. Blog data and images are stored using Supabase, providing a scalable backend solution.
+🔗 Live Demo: https://next-js-blog-app-livid.vercel.app/
 
-First, run the development server:
+🚀 Features
 
-```bash
+ - ✍️ Create Blog
+ -  📖 Read Blogs
+ -  ✏️ Update Blog
+ -  🗑️ Delete Blog
+ -  🧾 Form Validation using React Hook Form
+ -  🌙 Dark Mode Support
+ -  🔔 Toast Notifications
+ -  🖼️ Image Upload for Blogs
+ -  ⚡ Dynamic Routing
+ -  📱 Responsive UI
+ -  🎞️ Swiper Integration for Sliders
+
+🛠️ Tech Stack
+Frontend
+  -  Next.js
+  -  React
+  -  CSS
+
+Libraries
+  -  react-hook-form – Form validation and handling  
+  -  react-toastify – Toast notifications
+  -  swiper – Slider component
+
+Backend / Database
+
+Supabase
+  - Blog Data Storage  
+  - Image Storage
+
+Deployment
+  - Vercel
+
+
+📂 Project Structure
+nextJs-BlogApp
+│
+├── components        # Reusable UI components
+├── pages             # Next.js pages and routing
+│   ├── blog
+│   │   └── [id].js   # Dynamic routing for blog pages
+│
+├── styles            # Global and component styles
+├── utils             # Utility functions
+├── public            # Static assets
+│
+└── supabase          # Supabase configuration
+
+⚙️ Installation & Setup
+1️⃣ Clone the Repository
+git clone https://github.com/shlesha-j/nextJs-BlogApp.git
+2️⃣ Navigate to the Project
+cd nextJs-BlogApp
+3️⃣ Install Dependencies
+npm install
+4️⃣ Setup Environment Variables
+
+Create a .env.local file and add:
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
+
+You can get these from your Supabase Project Settings.
+
+▶️ Run the Project
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+App will run at:
+http://localhost:3000
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+🧾 Form Validation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project uses React Hook Form for efficient form handling and validation.
 
-## Learn More
+Validation features include:
 
-To learn more about Next.js, take a look at the following resources:
+  -  Required field validation  
+  -  Error handling  
+  -  Optimized re-rendering  
+  -  Easy form state management
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+🌙 Dark Mode
+The application supports Dark Mode toggle, allowing users to switch between light and dark themes for better accessibility and user experience.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+⭐ Support
+If you like this project, please consider giving it a star ⭐ on GitHub.
