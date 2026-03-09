@@ -1,4 +1,4 @@
-📝 Next.js Blog App
+# 📝 Next.js Blog App
 
 A modern Blog Application built with Next.js that supports CRUD operations, dynamic routing, form validation, dark mode, image uploads, and toast notifications. Blog data and images are stored using Supabase, providing a scalable backend solution.
 🔗 Live Demo: https://next-js-blog-app-livid.vercel.app/
